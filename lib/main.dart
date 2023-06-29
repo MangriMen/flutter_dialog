@@ -97,87 +97,98 @@ class _MyDialogState extends State<MyDialog> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: SizedBox(
-        width: 446,
-        height: 671,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16.0),
-              child: Text(
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-                "Заголовок",
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints.tightFor(
+                width: 446,
+                height: 671,
               ),
-            ),
-            const Divider(
-              height: 0,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: TabBar(
-                indicatorColor: const Color.fromRGBO(55, 125, 255, 1),
-                isScrollable: true,
-                controller: _tabController,
-                tabs: const <Widget>[
-                  Tab(text: "Вкладка 1"),
-                  Tab(text: "Вкладка 2")
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 32, vertical: 16.0),
+                    child: Text(
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      "Заголовок",
+                    ),
+                  ),
+                  const Divider(
+                    height: 0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: TabBar(
+                      indicatorColor: const Color.fromRGBO(55, 125, 255, 1),
+                      isScrollable: true,
+                      controller: _tabController,
+                      tabs: const <Widget>[
+                        Tab(text: "Вкладка 1"),
+                        Tab(text: "Вкладка 2")
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 32, vertical: 16.0),
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: const <Widget>[
+                          Page1(),
+                          Page2(),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 32.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        OutlinedButton(
+                          style: const ButtonStyle(
+                            padding: MaterialStatePropertyAll(
+                              EdgeInsets.symmetric(
+                                  horizontal: 32, vertical: 17),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text("Отмена"),
+                        ),
+                        ElevatedButton(
+                          style: const ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(
+                              Color.fromRGBO(50, 60, 71, 1),
+                            ),
+                            padding: MaterialStatePropertyAll(
+                              EdgeInsets.symmetric(
+                                  horizontal: 32, vertical: 17),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text("Добавить"),
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 32, vertical: 16.0),
-                child: TabBarView(
-                  controller: _tabController,
-                  children: const <Widget>[
-                    Page1(),
-                    Page2(),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 32, vertical: 32.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  OutlinedButton(
-                    style: const ButtonStyle(
-                      padding: MaterialStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 32, vertical: 17),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("Отмена"),
-                  ),
-                  ElevatedButton(
-                    style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(
-                        Color.fromRGBO(50, 60, 71, 1),
-                      ),
-                      padding: MaterialStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 32, vertical: 17),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("Добавить"),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+          );
+        },
       ),
     );
   }
