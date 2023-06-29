@@ -11,10 +11,45 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        fontFamily: "Mulish",
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        // useMaterial3: true,
-      ),
+          fontFamily: "Mulish",
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          textTheme: const TextTheme(
+            titleMedium: TextStyle(
+              color: Color.fromRGBO(50, 60, 71, 1),
+            ),
+          ),
+          dropdownMenuTheme: const DropdownMenuThemeData(
+            inputDecorationTheme: InputDecorationTheme(
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Color.fromRGBO(235, 239, 242, 1)),
+              ),
+            ),
+          ),
+          checkboxTheme: CheckboxThemeData(
+            fillColor: MaterialStateProperty.resolveWith<Color>(
+              (Set<MaterialState> states) {
+                if (!states.contains(MaterialState.selected)) {
+                  return const Color.fromRGBO(235, 239, 242, 1);
+                }
+                return const Color.fromRGBO(55, 125, 255, 1);
+              },
+            ),
+          ),
+          tabBarTheme: const TabBarTheme(
+            labelColor: Color.fromRGBO(37, 39, 51, 1),
+            labelStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+            unselectedLabelColor: Color.fromRGBO(153, 166, 183, 1),
+            unselectedLabelStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+            indicatorSize: TabBarIndicatorSize.label,
+          )
+          // useMaterial3: true,
+          ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -38,15 +73,11 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          children: <Widget>[
-            TextButton(
-                onPressed: () => showDialog(
-                    context: context,
-                    builder: (BuildContext context) => const MyDialog()),
-                child: const Text("Открыть диалог")),
-          ],
-        ),
+        child: TextButton(
+            onPressed: () => showDialog(
+                context: context,
+                builder: (BuildContext context) => const MyDialog()),
+            child: const Text("Открыть диалог")),
       ),
     );
   }
@@ -63,66 +94,91 @@ class _MyDialogState extends State<MyDialog> with TickerProviderStateMixin {
   late final TabController _tabController =
       TabController(length: 2, vsync: this);
 
-  static const _tabLabelStyle = TextStyle(
-    fontWeight: FontWeight.bold,
-    fontSize: 16,
-  );
-
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Wrap(
-        runSpacing: 16,
-        children: <Widget>[
-          const Wrap(
-            children: [
-              Text(
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+    return Dialog(
+      child: SizedBox(
+        width: 446,
+        height: 671,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16.0),
+              child: Text(
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
                 "Заголовок",
               ),
-              Divider()
-            ],
-          ),
-          TabBar(
-            labelStyle: _tabLabelStyle,
-            labelColor: const Color.fromRGBO(37, 39, 51, 1.0),
-            unselectedLabelColor: const Color.fromRGBO(153, 166, 183, 1.0),
-            indicatorColor: const Color.fromRGBO(55, 125, 255, 1.0),
-            controller: _tabController,
-            indicatorSize: TabBarIndicatorSize.label,
-            tabs: const <Widget>[
-              Tab(text: "Вкладка 1"),
-              Tab(text: "Вкладка 2")
-            ],
-          ),
-          SizedBox(
-            width: double.maxFinite,
-            height: 460,
-            child: TabBarView(
-              controller: _tabController,
-              children: const <Widget>[
-                Page1(),
-                Page2(),
-              ],
             ),
-          ),
-        ],
+            const Divider(
+              height: 0,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: TabBar(
+                indicatorColor: const Color.fromRGBO(55, 125, 255, 1),
+                isScrollable: true,
+                controller: _tabController,
+                tabs: const <Widget>[
+                  Tab(text: "Вкладка 1"),
+                  Tab(text: "Вкладка 2")
+                ],
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 16.0),
+                child: TabBarView(
+                  controller: _tabController,
+                  children: const <Widget>[
+                    Page1(),
+                    Page2(),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 32, vertical: 32.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  OutlinedButton(
+                    style: const ButtonStyle(
+                      padding: MaterialStatePropertyAll(
+                        EdgeInsets.symmetric(horizontal: 32, vertical: 17),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Отмена"),
+                  ),
+                  ElevatedButton(
+                    style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(
+                        Color.fromRGBO(50, 60, 71, 1),
+                      ),
+                      padding: MaterialStatePropertyAll(
+                        EdgeInsets.symmetric(horizontal: 32, vertical: 17),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Добавить"),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text("Отмена"),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text("Добавить"),
-        ),
-      ],
-      actionsAlignment: MainAxisAlignment.center,
     );
   }
 }
@@ -146,7 +202,13 @@ class _Page1State extends State<Page1> {
 
   static const _hintStyle = TextStyle(
     fontSize: 14,
-    color: Color.fromRGBO(153, 166, 183, 1.0),
+    color: Color.fromRGBO(153, 166, 183, 1),
+  );
+
+  static const _textFieldBorderStyle = OutlineInputBorder(
+    borderSide: BorderSide(
+      color: Color.fromRGBO(235, 239, 242, 1),
+    ),
   );
 
   bool checkboxValue1 = true;
@@ -164,14 +226,17 @@ class _Page1State extends State<Page1> {
               style: _labelStyle,
               "Наименование",
             ),
-            TextFormField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red),
+            SizedBox(
+              height: 40,
+              child: TextFormField(
+                style: const TextStyle(fontSize: 14),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  enabledBorder: _textFieldBorderStyle,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                  hintText: "Выбрать",
+                  hintStyle: _hintStyle,
                 ),
-                contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                hintText: "Выбрать",
-                hintStyle: _hintStyle,
               ),
             ),
           ],
@@ -183,12 +248,17 @@ class _Page1State extends State<Page1> {
               style: _labelStyle,
               "Сумма",
             ),
-            TextFormField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                hintText: "Введите сумму",
-                hintStyle: _hintStyle,
+            SizedBox(
+              height: 40,
+              child: TextFormField(
+                style: const TextStyle(fontSize: 14),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  enabledBorder: _textFieldBorderStyle,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                  hintText: "Введите сумму",
+                  hintStyle: _hintStyle,
+                ),
               ),
             )
           ],
@@ -205,30 +275,30 @@ class _Page1State extends State<Page1> {
                 CheckboxListTile(
                   controlAffinity: ListTileControlAffinity.leading,
                   contentPadding: const EdgeInsets.all(0),
-                  value: checkboxValue1,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      checkboxValue1 = value!;
-                    });
-                  },
                   title: const Text(
                     style: _checkboxLabelStyle,
                     "Элемент списка 1",
                   ),
-                ),
-                CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity.leading,
-                  contentPadding: const EdgeInsets.all(0),
                   value: checkboxValue1,
                   onChanged: (bool? value) {
                     setState(() {
                       checkboxValue1 = value!;
                     });
                   },
+                ),
+                CheckboxListTile(
+                  controlAffinity: ListTileControlAffinity.leading,
+                  contentPadding: const EdgeInsets.all(0),
                   title: const Text(
                     style: _checkboxLabelStyle,
                     "Элемент списка 2",
                   ),
+                  value: checkboxValue2,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      checkboxValue2 = value!;
+                    });
+                  },
                 ),
               ],
             )
@@ -242,14 +312,15 @@ class _Page1State extends State<Page1> {
               "Комментарий",
             ),
             TextFormField(
-              minLines: 5,
-              maxLines: 5,
+              minLines: 4,
+              maxLines: 4,
               initialValue: "Мой новый комментарий",
+              style: const TextStyle(fontSize: 14),
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                enabledBorder: _textFieldBorderStyle,
               ),
-            )
+            ),
           ],
         ),
       ],
@@ -293,8 +364,9 @@ class _Page2State extends State<Page2> {
               "Организация",
             ),
             DropdownMenu(
-              hintText: "Выбрать",
+              width: 380,
               dropdownMenuEntries: _dropDownMenuEntries,
+              hintText: "Выбрать",
             ),
           ],
         ),
@@ -307,8 +379,9 @@ class _Page2State extends State<Page2> {
               "Контрагент",
             ),
             DropdownMenu(
-              hintText: "Выбрать",
+              width: 380,
               dropdownMenuEntries: _dropDownMenuEntries,
+              hintText: "Выбрать",
             ),
           ],
         ),
@@ -321,8 +394,9 @@ class _Page2State extends State<Page2> {
               "Договор",
             ),
             DropdownMenu(
-              hintText: "Выбрать",
+              width: 380,
               dropdownMenuEntries: _dropDownMenuEntries,
+              hintText: "Выбрать",
             ),
           ],
         ),
