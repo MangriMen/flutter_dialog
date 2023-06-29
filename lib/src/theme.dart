@@ -94,6 +94,7 @@ ElevatedButtonThemeData elevatedButtonThemeData() {
   return const ElevatedButtonThemeData(
     style: ButtonStyle(
       textStyle: MaterialStatePropertyAll(TextStyle(
+        fontFamily: AppTheme.fontFamily,
         fontWeight: FontWeight.w500,
       )),
       backgroundColor: MaterialStatePropertyAll(
@@ -107,6 +108,7 @@ OutlinedButtonThemeData outlinedButtonThemeData() {
   return const OutlinedButtonThemeData(
     style: ButtonStyle(
       textStyle: MaterialStatePropertyAll(TextStyle(
+        fontFamily: AppTheme.fontFamily,
         fontWeight: FontWeight.w500,
       )),
       foregroundColor: MaterialStatePropertyAll(AppColors.text),
