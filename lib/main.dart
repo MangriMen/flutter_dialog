@@ -190,7 +190,10 @@ class Page1 extends StatefulWidget {
   State<StatefulWidget> createState() => _Page1State();
 }
 
-class _Page1State extends State<Page1> {
+class _Page1State extends State<Page1>
+    with AutomaticKeepAliveClientMixin<Page1> {
+  @override
+  bool get wantKeepAlive => true;
   static const _labelStyle = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.bold,
@@ -216,6 +219,8 @@ class _Page1State extends State<Page1> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Wrap(
       runSpacing: 16,
       children: <Widget>[
@@ -335,7 +340,11 @@ class Page2 extends StatefulWidget {
   State<StatefulWidget> createState() => _Page2State();
 }
 
-class _Page2State extends State<Page2> {
+class _Page2State extends State<Page2>
+    with AutomaticKeepAliveClientMixin<Page2> {
+  @override
+  bool get wantKeepAlive => true;
+
   late final _dropDownMenuEntries = const <DropdownMenuEntry>[
     DropdownMenuEntry(value: 1, label: "Вариант 1"),
     DropdownMenuEntry(value: 2, label: "Вариант 2"),
@@ -351,6 +360,8 @@ class _Page2State extends State<Page2> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Wrap(
       direction: Axis.vertical,
       spacing: 16,
